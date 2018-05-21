@@ -2,6 +2,8 @@
 Program with a fairly visually appealing graphical display of the traffic simulation data.
 
 
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<GL/glut.h>
@@ -24,20 +26,13 @@ float n=0.0;    //movement of plane along x-axis
 float o=0.0;    //  and y-axis
 float c=0.0;    //movement of comet    SS
 
-char s1[]="SJB INSTITUTE OF TECHNOLOGY";
-char s2[]="DEPARTMENT  OF  COMPUTER  SCIENCE  AND  ENGINEERING";
-char s3[]="COMPUTER  GRAPHICS  MINI  PROJECT";
-char s4[]="";
+
 char s5[]="BY:";
-char s13[]="ASHWINI ANANDA (1JB15CS027)";
-char s14[]="DIVYA B V (1JB16CS406)";
-char s15[]="UNDER THE GUIDANCE OF:";
-char s7[]="DIVYASHREE J";
-char s16[]="K S SRINIDHI";
+char s13[]="ASHWINI ANANDA";
+
 char s18[]="PRESS 'e' TO CONTINUE...";
 char s20[]="";
 char  a1[]="KEYBOARD CONTROLS";
-
 char a3[]="Press 'r' or 'R' to change the signal light to red ";
 char a4[]="Press 'g' or 'G' to change the signal light to green ";
 char a5[]="Press 'd' or 'D' to make it day ";
@@ -75,22 +70,7 @@ void frontscreen()
     glEnd();
     glColor3f(1.000, 0.271, 0.000);
     glRasterPos3f(280,475,1.0);
-    for(fi=0;fi<strlen(s1);fi++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s1[fi]);
-    glColor3f(1.000, 0.271, 0.000);
-    glRasterPos3f(180,425,1.0);
-    for(fj=0;fj<strlen(s2);fj++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s2[fj]);
-    glColor3f(1,1,1);
-    glRasterPos3f(250,375,1.0);
-    for(fk=0;fk<strlen(s3);fk++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s3[fk]);
-    glColor3f(1,1,1);
-    glRasterPos3f(330,325,1.0);
-    for(fl=0;fl<strlen(s4);fl++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s4[fl]);
-    glColor3f(0.941, 0.902, 0.549);
-    glRasterPos3f(250,275,1.0);
+
     for(fm=0;fm<strlen(s5);fm++)
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s5[fm]);
     glColor3f(0.847, 0.749, 0.847);
@@ -99,24 +79,6 @@ void frontscreen()
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s13[fa]);
     glColor3f(0.847, 0.749, 0.847);
     glRasterPos3f(150,190,1.0);
-    for(ft=0;ft<strlen(s14);ft++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s14[ft]);
-    glColor3f(0.941, 0.902, 0.549);
-    glRasterPos3f(500,275,1.0);
-    for(fc=0;fc<strlen(s15);fc++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s15[fc]);
-    glColor3f(0.847, 0.749, 0.847);
-    glRasterPos3f(550,230,1.0);
-    for(fu=0;fu<strlen(s7);fu++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s7[fu]);
-    glColor3f(0.847, 0.749, 0.847);
-    glRasterPos3f(550,190,1.0);
-    for(fd=0;fd<strlen(s16);fd++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s16[fd]);
-    glColor3f(1,1,1);
-    glRasterPos3f(350,100,1.0);
-    for(ff=0;ff<strlen(s18);ff++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s18[ff]);
     glPopMatrix();
     resetPerspectiveProjection();
     glutSwapBuffers();
@@ -1204,4 +1166,5 @@ int main(int argc,char** argv)
     glutMainLoop();
     return 0;
 }
+
 
