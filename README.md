@@ -1,0 +1,1207 @@
+# Traffic-Signal-Simulation
+Program with a fairly visually appealing graphical display of the traffic simulation data.
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<GL/glut.h>
+#include<string.h>
+#define SPEED 40.0
+void traffic_light();
+float i=0.0; //movement of car
+float m=0.0; //movement of cloud
+int light=1;
+int day=1; //1for day,0 for night
+int f=0;
+int fa,fb,fc,fd,fe,ff,fi,fj,fk,fl,fm,fn,fo,fp,fq,fr,fs,ft,fu,fz,flag=0;
+int sa,sb,sc,sd,se,sf;
+
+int plane=0;      //1 for plane
+int comet=0;      //1 for comet
+int desert=1;
+int grassy=0;
+float n=0.0;    //movement of plane along x-axis
+float o=0.0;    //  and y-axis
+float c=0.0;    //movement of comet    SS
+
+char s1[]="SJB INSTITUTE OF TECHNOLOGY";
+char s2[]="DEPARTMENT  OF  COMPUTER  SCIENCE  AND  ENGINEERING";
+char s3[]="COMPUTER  GRAPHICS  MINI  PROJECT";
+char s4[]="";
+char s5[]="BY:";
+char s13[]="ASHWINI ANANDA (1JB15CS027)";
+char s14[]="DIVYA B V (1JB16CS406)";
+char s15[]="UNDER THE GUIDANCE OF:";
+char s7[]="DIVYASHREE J";
+char s16[]="K S SRINIDHI";
+char s18[]="PRESS 'e' TO CONTINUE...";
+char s20[]="";
+char  a1[]="KEYBOARD CONTROLS";
+
+char a3[]="Press 'r' or 'R' to change the signal light to red ";
+char a4[]="Press 'g' or 'G' to change the signal light to green ";
+char a5[]="Press 'd' or 'D' to make it day ";
+char a6[]="Press 'n' or 'N' to make it night ";
+char a7[]="Press 'e' to Start";
+void resetPerspectiveProjection()
+{
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void setOrthographicProjection()
+{
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0.0,800.0,0.0,600.0);
+    glClearColor(0.0,0.0,1.0,1.0);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void frontscreen()
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    setOrthographicProjection();
+    glPushMatrix();
+    glLoadIdentity();
+    glBegin(GL_POLYGON);
+    glColor3f(0,0,0);
+    glVertex2f(0,0);
+    glVertex2f(1400,0);
+    glVertex2f(1400,1000);
+    glVertex2f(0,1000);
+    glEnd();
+    glColor3f(1.000, 0.271, 0.000);
+    glRasterPos3f(280,475,1.0);
+    for(fi=0;fi<strlen(s1);fi++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s1[fi]);
+    glColor3f(1.000, 0.271, 0.000);
+    glRasterPos3f(180,425,1.0);
+    for(fj=0;fj<strlen(s2);fj++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s2[fj]);
+    glColor3f(1,1,1);
+    glRasterPos3f(250,375,1.0);
+    for(fk=0;fk<strlen(s3);fk++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s3[fk]);
+    glColor3f(1,1,1);
+    glRasterPos3f(330,325,1.0);
+    for(fl=0;fl<strlen(s4);fl++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s4[fl]);
+    glColor3f(0.941, 0.902, 0.549);
+    glRasterPos3f(250,275,1.0);
+    for(fm=0;fm<strlen(s5);fm++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s5[fm]);
+    glColor3f(0.847, 0.749, 0.847);
+    glRasterPos3f(150,225,1.0);
+    for(fa=0;fa<strlen(s13);fa++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s13[fa]);
+    glColor3f(0.847, 0.749, 0.847);
+    glRasterPos3f(150,190,1.0);
+    for(ft=0;ft<strlen(s14);ft++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s14[ft]);
+    glColor3f(0.941, 0.902, 0.549);
+    glRasterPos3f(500,275,1.0);
+    for(fc=0;fc<strlen(s15);fc++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s15[fc]);
+    glColor3f(0.847, 0.749, 0.847);
+    glRasterPos3f(550,230,1.0);
+    for(fu=0;fu<strlen(s7);fu++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s7[fu]);
+    glColor3f(0.847, 0.749, 0.847);
+    glRasterPos3f(550,190,1.0);
+    for(fd=0;fd<strlen(s16);fd++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s16[fd]);
+    glColor3f(1,1,1);
+    glRasterPos3f(350,100,1.0);
+    for(ff=0;ff<strlen(s18);ff++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s18[ff]);
+    glPopMatrix();
+    resetPerspectiveProjection();
+    glutSwapBuffers();
+    glFlush();
+}
+
+void menu1()
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    setOrthographicProjection();
+    glPushMatrix();
+    glLoadIdentity();
+    glBegin(GL_POLYGON);
+    glColor3f(0,0,0);
+    glVertex2f(0,0);
+    glVertex2f(1400,0);
+    glVertex2f(1400,1000);
+    glVertex2f(0,1000);
+    glEnd();
+    glColor3f(1.000, 0.271, 0.000);
+    glRasterPos3f(280,475,1.0);
+    for(sa=0;sa<strlen(a1);sa++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,a1[sa]);
+    glColor3f(1,1,1);
+    glRasterPos3f(280,375,1.0);
+    for(sc=0;sc<strlen(a3);sc++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,a3[sc]);
+    glColor3f(1,1,1);
+    glRasterPos3f(280,325,1.0);
+    for(sd=0;sd<strlen(a4);sd++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,a4[sd]);
+    glColor3f(0.941, 0.902, 0.549);
+    glRasterPos3f(280,275,1.0);
+    for(se=0;se<strlen(a5);se++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,a5[se]);
+    glColor3f(0.847, 0.749, 0.847);
+    glRasterPos3f(280,225,1.0);
+    for(sf=0;sf<strlen(a6);sf++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,a6[sf]);
+           glColor3f(1,1,1);
+    glRasterPos3f(280,150,1.0);
+    for(ff=0;ff<strlen(s18);ff++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,s18[ff]);
+    glPopMatrix();
+    resetPerspectiveProjection();
+    glutSwapBuffers();
+    glFlush();
+}
+
+void display()
+{
+    if(f==0)
+        frontscreen();
+    if(f==1)
+        menu1();
+
+}
+
+
+void draw_pixel(GLint cx,GLint cy)
+{
+    glBegin(GL_POINTS); glVertex2i(cx,cy); glEnd();
+}
+
+void plotpixels(GLint h,GLint k,GLint x,GLint y)
+{
+    draw_pixel(x+h,y+k); draw_pixel(-x+h,y+k); draw_pixel(x+h,-y+k); draw_pixel(-x+h,-y+k); draw_pixel(y+h,x+k); draw_pixel(-y+h,x+k); draw_pixel(y+h,-x+k);
+    draw_pixel(-y+h,-x+k);
+}
+
+void draw_circle(GLint h,GLint k,GLint r)
+{
+    GLint d=1-r,x=0,y=r;
+    while(y>x)
+    {
+        plotpixels(h,k,x,y);
+        if(d<0)
+            d+=2*x+3;
+        else
+        {
+            d+=2*(x-y)+5;
+            --y;
+        }
+        ++x;
+    }
+    plotpixels(h,k,x,y);
+}
+
+
+void draw_object()
+{
+    int l;
+    if(day==1)
+    {
+        //sky
+        glColor3f(0.529, 0.808, 0.92);
+        glBegin(GL_POLYGON);
+        glVertex2f(0,450);
+        glVertex2f(0,700);
+        glVertex2f(1100,700);
+        glVertex2f(1100,450);
+        glEnd();
+
+        //sun
+
+
+        for(l=0;l<=35;l++)
+        {
+            glColor3f(1.0,0.9,0.0);
+            draw_circle(100,625,l);
+        }
+
+
+        //plane
+        if(plane==1)
+        {
+            glColor3f(1.0,1.0,1.0);
+            glBegin(GL_POLYGON);
+            glVertex2f(925+n,625+o);
+            glVertex2f(950+n,640+o);
+            glVertex2f(1015+n,640+o);
+            glVertex2f(1030+n,650+o);
+            glVertex2f(1050+n,650+o);
+            glVertex2f(1010+n,625+o);
+            glEnd();
+
+            glColor3f(0.8,0.8,0.8);
+            glBegin(GL_LINE_LOOP);
+            glVertex2f(925+n,625+o);
+            glVertex2f(950+n,640+o);
+            glVertex2f(1015+n,640+o);
+            glVertex2f(1030+n,650+o);
+            glVertex2f(1050+n,650+o);
+            glVertex2f(1010+n,625+o);
+            glEnd();
+
+
+        }
+
+
+
+        //cloud1
+
+
+        for(l=0;l<=20;l++)
+        {
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(160+m,625,l);
+
+        }
+
+
+        for(l=0;l<=35;l++)
+        {
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(200+m,625,l);
+            draw_circle(225+m,625,l);
+        }
+
+        for(l=0;l<=20;l++)
+        {
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(265+m,625,l);
+        }
+
+        //cloud2
+
+
+        for(l=0;l<=20;l++)
+        {
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(370+m,615,l);
+        }
+
+
+
+
+        for(l=0;l<=35;l++)
+        {
+
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(410+m,615,l);
+            draw_circle(435+m,615,l);
+            draw_circle(470+m,615,l);
+        }
+
+        for(l=0;l<=20;l++)
+        {
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(500+m,615,l);
+        }
+
+
+        /*if (desert == 1)
+         {
+         glColor3f(0.741, 0.718, 0.420);
+         glBegin(GL_POLYGON);
+         glVertex2f(0,160);
+         glVertex2f(0,450);
+         glVertex2f(1100,450);
+         glVertex2f(1100,160);
+         glEnd();
+
+
+         }
+
+         else
+         {
+
+         //grass
+         glColor3f(0.0,0.9,0.0);
+         glBegin(GL_POLYGON);
+         glVertex2f(0,160);
+         glVertex2f(0,450);
+         glVertex2f(1100,450);
+         glVertex2f(1100,160);
+         glEnd();
+
+         //pond
+         glColor3f(0.0,0.9,0.9);
+         glBegin(GL_POLYGON);
+         glVertex2f(25,350);
+         glVertex2f(25,375);
+         glVertex2f(50,400);
+         glVertex2f(75,410);
+         glVertex2f(100,420);
+         glVertex2f(200,420);
+         glVertex2f(225,410);
+         glVertex2f(250,405);
+         glVertex2f(275,390);
+         glVertex2f(300,375);
+         glVertex2f(310,350);
+         glVertex2f(300,320);
+         glVertex2f(275,300);
+         glVertex2f(250,295);
+         glVertex2f(225,290);
+         glVertex2f(200,285);
+         glVertex2f(175,280);
+         glVertex2f(150,280);
+         glVertex2f(125,280);
+         glVertex2f(100,290);
+         glVertex2f(75,300);
+         glVertex2f(50,310);
+         glEnd();
+
+         }*/
+    }
+
+
+    else
+    {
+
+        //sky
+        glColor3f(0.0,0.0,0.0);
+        glBegin(GL_POLYGON);
+        glVertex2f(0,450);
+        glVertex2f(0,700);
+        glVertex2f(1100,700);
+        glVertex2f(1100,450);
+        glEnd();
+
+        //moon
+        int l;
+
+        for(l=0;l<=35;l++)
+        {
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(100,625,l);
+        }
+
+        //star1
+
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(575,653);
+        glVertex2f(570,645);
+        glVertex2f(580,645);
+        glVertex2f(575,642);
+        glVertex2f(570,650);
+        glVertex2f(580,650);
+        glEnd();
+
+        //star2
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(975,643);
+        glVertex2f(970,635);
+        glVertex2f(980,635);
+        glVertex2f(975,632);
+        glVertex2f(970,640);
+        glVertex2f(980,640);
+        glEnd();
+
+        //star3
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(875,543);
+        glVertex2f(870,535);
+        glVertex2f(880,535);
+        glVertex2f(875,532);
+        glVertex2f(870,540);
+        glVertex2f(880,540);
+        glEnd();
+
+        //star4
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(375,598);
+        glVertex2f(370,590);
+        glVertex2f(380,590);
+        glVertex2f(375,587);
+        glVertex2f(370,595);
+        glVertex2f(380,595);
+        glEnd();
+
+        //star5
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(750,628);
+        glVertex2f(745,620);
+        glVertex2f(755,620);
+        glVertex2f(750,618);
+        glVertex2f(745,625);
+        glVertex2f(755,625);
+        glEnd();
+
+        //star6
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(200,628);
+        glVertex2f(195,620);
+        glVertex2f(205,620);
+        glVertex2f(200,618);
+        glVertex2f(195,625);
+        glVertex2f(205,625);
+        glEnd();
+
+        //star7
+        glColor3f(1.0,1.0,1.0);
+        glBegin(GL_TRIANGLES);
+        glVertex2f(500,543);
+        glVertex2f(495,535);
+        glVertex2f(505,535);
+        glVertex2f(500,532);
+        glVertex2f(495,540);
+        glVertex2f(505,540);
+        glEnd();
+
+
+        //comet
+        if(comet==1)
+        {
+            for(l=0;l<=7;l++)
+            {
+                glColor3f(1.0,1.0,1.0);
+                draw_circle(300+c,675,l);
+            }
+
+            glColor3f(1.0,1.0,1.0);
+            glBegin(GL_TRIANGLES);
+            glVertex2f(200+c,675);
+            glVertex2f(300+c,682);
+            glVertex2f(300+c,668);
+            glEnd();
+        }
+
+        //Plane
+        if(plane==1)
+        {
+
+            for(l=0;l<=1;l++)
+            {
+                glColor3f(1.0,0.0,0.0);
+                draw_circle(950+n,625+o,l);
+                glColor3f(1.0,1.0,0.0);
+                draw_circle(954+n,623+o,l);
+
+            }
+
+
+
+        }
+    }
+
+    if(grassy==1)
+    {
+
+
+
+        //grass
+        glColor3f(0.0,0.3,0.0);
+        glBegin(GL_POLYGON);
+        glVertex2f(0,160);
+        glVertex2f(0,450);
+        glVertex2f(1100,450);
+        glVertex2f(1100,160);
+        glEnd();
+
+        //pond
+        if(day==1)
+            glColor3f(0.0,0.9,0.9);
+        else
+            glColor3f(0.0,0.0,0.4);
+        glBegin(GL_POLYGON);
+        glVertex2f(25,350);
+        glVertex2f(25,375);
+        glVertex2f(50,400);
+        glVertex2f(75,410);
+        glVertex2f(100,420);
+        glVertex2f(200,420);
+        glVertex2f(225,410);
+        glVertex2f(250,405);
+        glVertex2f(275,390);
+        glVertex2f(300,375);
+        glVertex2f(310,350);
+        glVertex2f(300,320);
+        glVertex2f(275,300);
+        glVertex2f(250,295);
+        glVertex2f(225,290);
+        glVertex2f(200,285);
+        glVertex2f(175,280);
+        glVertex2f(150,280);
+        glVertex2f(125,280);
+        glVertex2f(100,290);
+        glVertex2f(75,300);
+        glVertex2f(50,310);
+        glEnd();
+
+
+        //tree
+        glColor3f(0.9,0.2,0.0);
+        glBegin(GL_POLYGON);
+        glVertex2f(350,325);
+        glVertex2f(350,395);
+        glVertex2f(365,395);
+        glVertex2f(365,325);
+        glEnd();
+
+
+        for(l=0;l<=30;l++)
+        {
+            glColor3f(0.0,0.5,0.0);
+            draw_circle(340,400,l);
+            draw_circle(380,400,l);
+        }
+
+        for(l=0;l<=25;l++)
+        {
+            glColor3f(0.0,0.5,0.0);
+            draw_circle(350,440,l);
+            draw_circle(370,440,l);
+        }
+
+        for(l=0;l<=20;l++)
+        {
+            glColor3f(0.0,0.5,0.0);
+            draw_circle(360,465,l);
+        }
+
+
+
+    }
+
+    if(desert==1)
+    {
+        glColor3f(0.741, 0.718, 0.420);
+        glBegin(GL_POLYGON);
+        glVertex2f(0,160);
+        glVertex2f(0,450);
+        glVertex2f(1100,450);
+        glVertex2f(1100,160);
+        glEnd();
+
+
+        glColor3f(0.133, 0.545, 0.133);
+        glBegin(GL_POLYGON);
+        glVertex2f(480,320);
+        glVertex2f(480,405);
+        glVertex2f(520,405);
+        glVertex2f(520,320);
+        glEnd();
+
+
+        /*for(l=0;l<=30;l++)
+         {
+         glColor3f(0.133, 0.545, 0.133);
+         draw_circle(500,350,l);
+         //draw_circle(300,600,l);
+         }*/
+
+
+        for(l=0;l<=20;l++)
+        {
+            glColor3f(0.133, 0.545, 0.133);
+            draw_circle(500,413,l);
+            //draw_circle(370,440,l);
+        }
+
+        for(l=0;l<=17;l++)
+        {
+            glColor3f(0.133, 0.545, 0.133);
+            draw_circle(475,375,l);
+        }
+
+        for(l=0;l<=2;l++)
+        {
+            glColor3f(1.0,1.0,1.0);
+            draw_circle(500,350,l);
+            draw_circle(509,370,l);
+            draw_circle(485,375,1);
+            draw_circle(485,340,1);
+            draw_circle(505,333,1);
+            draw_circle(485,328,1);
+            draw_circle(479,365,1);
+            draw_circle(473,380,1);
+            draw_circle(482,400,1);
+            draw_circle(490,410,1);
+            draw_circle(505,404,1);
+            draw_circle(510,425,1);
+            draw_circle(500,400,1);
+
+        }
+
+    }
+
+
+    //road boundary
+    glColor3f(1.0,1.0,1.0);
+    glBegin(GL_POLYGON);
+    glVertex2f(0,150);
+    glVertex2f(0,160);
+    glVertex2f(1100,160);
+    glVertex2f(1100,150);
+    glEnd();
+
+    //road
+    glColor3f(0.2,0.2,0.2);
+    glBegin(GL_POLYGON);
+    glVertex2f(0,0);
+    glVertex2f(0,150);
+    glVertex2f(1100,150);
+    glVertex2f(1100,0);
+    glEnd();
+
+    /*//tree
+     glColor3f(0.9,0.2,0.0);
+     glBegin(GL_POLYGON);
+     glVertex2f(350,325);
+     glVertex2f(350,395);
+     glVertex2f(365,395);
+     glVertex2f(365,325);
+     glEnd();
+
+
+     for(l=0;l<=30;l++)
+     {
+     glColor3f(0.0,0.5,0.0);
+     draw_circle(340,400,l);
+     draw_circle(380,400,l);
+     }
+
+     for(l=0;l<=25;l++)
+     {
+     glColor3f(0.0,0.5,0.0);
+     draw_circle(350,440,l);
+     draw_circle(370,440,l);
+     }
+
+     for(l=0;l<=20;l++)
+     {
+     glColor3f(0.0,0.5,0.0);
+     draw_circle(360,465,l);
+     }
+     */
+
+    //back compound
+    glColor3f(0.2,0.0,0.0);
+    glBegin(GL_POLYGON);
+    glVertex2f(550,375);
+    glVertex2f(600,425);
+    glVertex2f(825,425);
+    glVertex2f(850,375);
+    glEnd();
+
+    //house
+    glColor3f(0.722, 0.525, 0.043);
+    glBegin(GL_POLYGON);
+    glVertex2f(600,375);
+    glVertex2f(600,450);
+    glVertex2f(650,525);
+    glVertex2f(700,450);
+    glVertex2f(700,375);
+    glEnd();
+
+    //door
+    glColor3f(0.2,0.0,0.0);
+    glBegin(GL_POLYGON);
+    glVertex2f(640,375);
+    glVertex2f(640,410);
+    glVertex2f(660,410);
+    glVertex2f(660,375);
+    glEnd();
+
+    //roof
+    glColor3f(0.5,0.0,0.0);
+    glBegin(GL_POLYGON);
+    glVertex2f(700,450);
+    glVertex2f(650,525);
+    glVertex2f(750,525);
+    glVertex2f(780,450);
+    glEnd();
+
+    //
+    glColor3f(0.8,0.8,0.2);
+    glBegin(GL_POLYGON);
+    glVertex2f(700,375);
+    glVertex2f(700,450);
+    glVertex2f(780,450);
+    glVertex2f(780,375);
+    glEnd();
+
+    //window1
+    glColor3f(0.0,0.0,0.7);
+    glBegin(GL_POLYGON);
+    glVertex2f(725,400);
+    glVertex2f(725,420);
+    glVertex2f(740,420);
+    glVertex2f(740,400);
+    glEnd();
+
+    //window2
+    glColor3f(0.0,0.0,0.7);
+    glBegin(GL_POLYGON);
+    glVertex2f(750,400);
+    glVertex2f(750,420);
+    glVertex2f(765,420);
+    glVertex2f(765,400);
+    glEnd();
+
+
+    //compound
+    glColor3f(0.804, 0.361, 0.361);
+    glBegin(GL_POLYGON);
+    glVertex2f(550,325);
+    glVertex2f(550,375);
+    glVertex2f(850,375);
+    glVertex2f(850,325);
+    glEnd();
+
+
+    //gate using mesh
+    int a,b;
+    float x[3],y[3];
+    float x0=600,y0=325;;
+
+    glColor3f(0.0,0.0,0.0);
+    for(a=0;a<3;a++)
+        x[a]=x0+a*25;
+
+    for(b=0;b<3;b++)
+        y[b]=y0+b*25;
+
+    for(a=0;a<2;a++)
+        for(b=0;b<2;b++)
+        {
+            glColor3f(0.0,0.0,0.0);
+            glBegin(GL_LINE_LOOP);
+            glVertex2f(x[a],y[b]);
+            glVertex2f(x[a],y[b+1]);
+            glVertex2f(x[a+1],y[b+1]);
+            glVertex2f(x[a+1],y[b]);
+            glEnd();
+
+        }
+
+    //signal
+    glColor3f(1.0,0.0,0.0);
+    glBegin(GL_POLYGON);
+    glVertex2f(1060,160);
+    glVertex2f(1060,350);
+    glVertex2f(1070,350);
+    glVertex2f(1070,160);
+    glEnd();
+
+
+    glColor3f(0.7,0.7,0.7);
+    glBegin(GL_POLYGON);
+    glVertex2f(1040,350);
+    glVertex2f(1040,500);
+    glVertex2f(1090,500);
+    glVertex2f(1090,350);
+    glEnd();
+
+    for(l=0;l<=20;l++)
+    {
+        glColor3f(0.0,0.0,0.0);
+        draw_circle(1065,475,l);
+        glColor3f(1.0,1.0,0.0);
+        draw_circle(1065,425,l);
+        glColor3f(0.0,0.0,0.0);
+        draw_circle(1065,375,l);
+    }
+
+    //car 1
+    glColor3f(0.702, 0.000, 0.000);
+    glBegin(GL_POLYGON);
+    glVertex2f(25+i,50);
+    glVertex2f(25+i,125);
+    glVertex2f(75+i,200);
+    glVertex2f(175+i,200);
+    glVertex2f(200+i,125);
+    glVertex2f(250+i,115);
+    glVertex2f(250+i,50);
+    glEnd();
+
+
+    //windows
+    glColor3f(0.416, 0.353, 0.80);
+    glBegin(GL_POLYGON);
+    glVertex2f(35+i,125);
+    glVertex2f(80+i,190);
+    glVertex2f(115+i,190);
+    glVertex2f(115+i,125);
+    glEnd();
+
+    glColor3f(0.416, 0.353, 0.80);
+    glBegin(GL_POLYGON);
+    glVertex2f(125+i,125);
+    glVertex2f(125+i,190);
+    glVertex2f(170+i,190);
+    glVertex2f(190+i,125);
+    glEnd();
+
+
+    for(l=0;l<20;l++)
+    {
+        glColor3f(0.0,0.0,0.0);
+        draw_circle(75+i,50,l);
+        draw_circle(175+i,50,l);
+    }
+
+
+
+
+    //car2
+
+    glColor3f(0.0,0.0,0.2);
+    glBegin(GL_POLYGON);
+    glVertex2f(-500+i,50);
+    glVertex2f(-550+i,112);
+    glVertex2f(-400+i,125);
+    glVertex2f(-372+i,210);
+    glVertex2f(-210+i,210);
+    glVertex2f(-180+i,125);
+    glVertex2f(-80+i,125);
+    glVertex2f(-30+i,50);
+    glEnd();
+
+
+    //windows
+    glColor3f(0.1,0.1,0.1);
+    glBegin(GL_POLYGON);
+    glVertex2f(-410+i,125);
+    glVertex2f(-364+i,200);
+    glVertex2f(-300+i,200);
+    glVertex2f(-300+i,125);
+    glEnd();
+
+    glColor3f(0.1,0.1,0.1);
+    glBegin(GL_POLYGON);
+    glVertex2f(-290+i,125);
+    glVertex2f(-290+i,200);
+    glVertex2f(-217+i,200);
+    glVertex2f(-192+i,125);
+    glEnd();
+
+
+    for(l=0;l<30;l++)
+    {
+        glColor3f(0.0,0.0,0.0);
+        draw_circle(-350+i,50,l);
+        draw_circle(-200+i,50,l);
+    }
+
+    //bus
+
+    glColor3f(1.000, 0.843, 0.000);
+    glBegin(GL_POLYGON);
+    glVertex2f(350+i,50);
+    glVertex2f(350+i,275);
+    glVertex2f(722+i,275);
+    glVertex2f(750+i,175);
+    glVertex2f(750+i,50);
+    glEnd();
+
+
+
+    glColor3f(0.412, 0.412, 0.412);
+    glBegin(GL_POLYGON);
+    glVertex2f(650+i,175);
+    glVertex2f(650+i,260);
+    glVertex2f(720+i,260);
+    glVertex2f(745+i,175);
+    glEnd();
+
+
+
+    glColor3f(0.412, 0.412, 0.412);
+    glBegin(GL_POLYGON);
+    glVertex2f(550+i,175);
+    glVertex2f(550+i,260);
+    glVertex2f(625+i,260);
+    glVertex2f(625+i,175);
+    glEnd();
+
+
+    glColor3f(0.412, 0.412, 0.412);
+    glBegin(GL_POLYGON);
+    glVertex2f(450+i,175);
+    glVertex2f(450+i,260);
+    glVertex2f(525+i,260);
+    glVertex2f(525+i,175);
+    glEnd();
+
+
+    glColor3f(0.412, 0.412, 0.412);
+    glBegin(GL_POLYGON);
+    glVertex2f(375+i,175);
+    glVertex2f(375+i,260);
+    glVertex2f(425+i,260);
+    glVertex2f(425+i,175);
+    glEnd();
+
+    for(l=0;l<30;l++)
+    {
+        glColor3f(0.0,0.0,0.0);
+        draw_circle(450+i,50,l);
+        draw_circle(625+i,50,l);
+    }
+
+    traffic_light();
+
+    glutPostRedisplay();
+    glFlush();
+}
+
+void traffic_light()
+{
+    int l;
+    if(light==1)
+    {
+        for(l=0;l<=20;l++)
+        {
+
+            glColor3f(0.0,0.0,0.0);
+            draw_circle(1065,475,l);
+
+            //glColor3f(1.0,1.0,0.0);
+            //draw_circle(1065,425,l);
+
+            glColor3f(0.0,0.7,0.0);
+            draw_circle(1065,375,l);
+        }
+    }
+
+    else
+    {
+
+        for(l=0;l<=20;l++)
+        {
+            glColor3f(1.0,0.0,0.0);
+            draw_circle(1065,475,l);
+
+            //glColor3f(0.0,0.0,0.0);
+            //draw_circle(1065,425,l);
+
+            glColor3f(0.0,0.0,0.0);
+            draw_circle(1065,375,l);
+        }
+    }
+}
+
+
+void idle()
+{
+    glClearColor(1.0,1.0,1.0,1.0);
+    if(light==0 && (i>=330 && i<=750)) //value of i when first vehicle is near the traffic-signal
+    {
+
+        i+=SPEED/10;
+        ++m;
+        n-=2;
+        o+=0.2;
+        c+=2;
+
+    }
+
+    if(light==0 && (i>=830 && i<=1100)) //value of i when second vehicle is near the traffic-signal
+    {
+
+        i+=SPEED/10;
+        ++m;
+        n-=2;
+        o+=0.2;
+        c+=2;
+
+    }
+
+    if(light==0 && (i>=1200 && i<=1620))// value of i when third vehicle is near the traffic signal
+    {
+
+        i+=SPEED/10;
+        ++m;
+        n-=2;
+        o+=0.2;
+        c+=2;
+
+    }
+
+    if(light==0)
+    {
+        i=i;
+        ++m;
+        n-=2;
+        o+=0.2;
+        c+=2;
+
+    }
+
+    else
+    {
+
+        i+=SPEED/10;
+        ++m;
+        n-=2;
+        o+=0.2;
+        c+=2;
+    }
+    if(i>1630)
+        i=0.0;
+    if(m>1100)
+        m=0.0;
+    if( o>75)
+    {
+        plane=0;
+    }
+    if(c>500)
+    {
+        comet=0;
+    }
+    glutPostRedisplay();
+
+}
+
+void mouse(int btn,int state,int x,int y)
+{
+    if(btn==GLUT_LEFT_BUTTON && state==GLUT_DOWN)
+        exit(0);
+}
+
+
+void keyboardFunc(unsigned char key,int x,int y)
+{   if(f==0)
+    f=1;
+else if (f==1)
+    f=2;
+else{
+    switch(key)
+    {
+
+        case 'g':
+        case 'G':
+            light=1;
+            break;
+
+        case 'r':
+        case 'R':
+            light=0;
+            break;
+
+        case 'd':
+        case 'D':
+            day=1;
+            break;
+
+        case 'n':
+        case 'N':
+            day=0;
+            break;
+
+        case'e':
+            glutDisplayFunc(draw_object); break;
+        case 27:exit(0);
+            glutPostRedisplay();
+    }
+   // glutPostRedisplay();
+}
+}
+
+void myinit()
+{
+    glClearColor(1.0,1.0,1.0,1.0);
+    glColor3f(0.0,0.0,1.0);
+    glPointSize(2.0); glMatrixMode(GL_PROJECTION); glLoadIdentity(); gluOrtho2D(0.0,1100.0,0.0,700.0);
+}
+
+void main_menu(int index)
+{
+    switch(index)
+    {
+        case 1:
+            if(index==1)
+            {
+                plane=1;
+                o=n=0.0;
+            }
+            break;
+
+        case 2:
+            if(index==2)
+            {
+                comet=1;
+                c=0.0;
+            }
+            break;
+
+    }
+
+}
+
+void s_menu(int index)
+{
+    switch(index)
+    {
+        case 3:
+
+            desert=1;
+            grassy=0;
+
+            break;
+
+        case 4:
+            grassy=1;
+            desert=0;
+            break;
+    }
+    glutPostRedisplay();
+
+}
+
+
+int main(int argc,char** argv)
+{
+    int c_menu,sub_menu;
+    printf("Press 'r' or 'R' to change the signal light to red \n");
+    printf("Press 'g' or 'G' to change the signal light to green \n");
+
+    printf("Press 'd' or 'D' to make it day \n");
+    printf("Press 'n' or 'N' to make it night \n");
+
+    printf("Press RIGHT MOUSE BUTTON to display menu , the whole image is paused until the menu is selected \n");
+    printf("Press LEFT MOUSE BUTTON to quit the program \n");
+    glutInit(&argc,argv);
+    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+    glutInitWindowSize(1100.0,700.0);
+    glutInitWindowPosition(0,0);
+    glutCreateWindow("Traffic Control");
+    glutDisplayFunc(display);
+    glutIdleFunc(idle);
+    glutKeyboardFunc(keyboardFunc);
+    glutMouseFunc(mouse);
+    myinit();
+
+    sub_menu=glutCreateMenu(s_menu);
+    glutAddMenuEntry("Desert",3);
+    glutAddMenuEntry("Grassy",4);
+
+
+    c_menu=glutCreateMenu(main_menu);
+    glutAddMenuEntry("Aeroplane",1);
+    glutAddMenuEntry("Comet",2);
+    glutAddSubMenu("Terrains",sub_menu);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+    glutMainLoop();
+    return 0;
+}
+
